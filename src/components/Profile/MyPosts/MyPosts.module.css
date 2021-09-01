@@ -1,0 +1,10 @@
+.content{
+    grid-area: c;
+    background-color: rgb(54, 54, 134);
+}
+.postsBlock{
+    padding: 10px;
+}
+.post div{
+    padding: 10px;
+}

@@ -7,9 +7,22 @@ import {Route} from 'react-router-dom';
 import DialogsContainer from './components/Dialogs/DialogsContainer';
 import UsersContainer from './components/Users/UsersContainer';
 import LoginContainer from './components/Login/Login';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {initializeApp} from './redux/app_reducer';
+import {withRouter} from 'react-router-dom';
+import Preloader from './components/common/Preloader/Preloader';
 
-function App() {
-  return (
+class App extends React.Component {
+  componentDidMount(){
+    this.props.initializeApp();
+  }
+  render(){
+    if(!this.props.initialized){
+      return <Preloader />
+    }
+
+    return (
       <div className="app-wrapper">
           <HeaderContainer/>
           <Navbar/>
@@ -25,6 +38,13 @@ function App() {
           </div>
       </div>
   );
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  initialized: state.app.initialized
+})
+
+export default compose(
+  withRouter,
+  connect(mapStateToProps, {initializeApp}))(App);

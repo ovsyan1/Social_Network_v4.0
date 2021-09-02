@@ -1,91 +1,101 @@
+import { withFormik } from 'formik';
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-// import * as yup from 'yup';
+import {Redirect, withRouter} from 'react-router-dom';
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {login, setErrors} from "../../redux/auth_reducer";
+import classes from './Login.module.css';
 
-const LoginForm = (props) => {
-    // const validationsSchema = yup.object().shape({
-    //     login: yup.string().typeError('Должно быть строкой').required('Обязательно'),
-    //     password: yup.string().typeError('Должно быть строкой').required('Обязательно')
-    // })
+class Error extends React.Component {
+    render(){
+        return <div className={classes.error}>Error: wrong login or email !!!</div>
+    }
+}
 
-
-    return (
-        <Formik 
-            initialValues = {{ login: '', password: ''}}
-            validateOnBlur // Когда будет валидироваться - при переходе на след инпут 
-            onSubmit = {(values) => console.log(values)}
-            // validationsSchema={validationsSchema}
-            validate = { values => {
-                const errors = {};
-                if(!values.login) {
-                    errors.login = 'Required';
-                }
-                return errors;
-            }}  
-            
-        >
-            {({values, errors, touched, handleChange, handleBlur, isValid, handleSubmit, dirty}) => ( 
+class MyForm extends React.Component {
+    render() {
+        const {
+            values,
+            touched, 
+            errors,
+            handleChange,
+            handleBlur,
+            handleSubmit
+        } = this.props;
+        if(this.props.auth.isAuth){
+            return <Redirect to={'/profile'} />
+        }
+        return (
+            <div>
+                    <h1>Login</h1>
                 <form onSubmit={handleSubmit}>
-                <p>
-                    <label htmlFor={"login"}>Login</label><br/>
-                    <input 
-                        type="text" 
-                        name={'login'} 
-                        placeholder={'login'} 
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.login}
+                    <div>
+                        <label htmlFor="email">Email:</label>
+                        <div>
+                        <input 
+                            type="text"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.email}
+                            name="email"
                         />
-                        {errors.login && touched.login && errors.login}
-                </p>
-                <div>
-                <label htmlFor={"password"}>Password</label><br/>
-                    <input 
-                        type="password" 
-                        name={'password'} 
-                        placeholder={'Password'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.password}
+                        </div>
+                        {errors.email && touched.email && <div id="feedback">{errors.email}</div>}
+                    </div>
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <div>
+                        <input 
+                            type="password"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.password}
+                            name="password"
                         />
-                        {errors.login && touched.login && errors.login}
-                </div>
-                <div>
-                    <input 
-                        type={"checkbox"}
-                        name={'checkbox'} 
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.checkbox}
+                        </div>
+                            {errors.password && touched.password && <div id="feedback">{errors.password}</div>}
+                    </div>
+                    <div>
+                        <input 
+                            type="checkbox"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.rememberMe}
+                            name="rememberMe"
                         />
-                        Remember me
-                </div>
-                <div>
-                    <button 
-                        disabled={!isValid && !dirty} 
-                        onClick={handleBlur}
-                        
-                        type={'submit'}
-                    >Login
-                    </button>
-                </div>
-            </form>
-            )}
-            
-        </Formik>
-    )
-}
+                        <span>rememberMe</span>
+                        {this.props.auth.errors && <Error />}
+                    </div>
+                    <div>
+                        <button type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+        )
+    }
+};
 
+const LoginContainer = withFormik({
+    mapPropsToValues: () => ({email: ''}),
+    validate: values => {
+        const errors = {};
+        if(!values.email){
+            errors.email = <div className={classes.error}>{'Required'}</div>;
+        }
+        return errors;
+    },
+    handleSubmit: (values, { props, setSubmitting }) => {
+        // console.log(values);
+        props.login(values.email, values.password, values.rememberMe);
+        setSubmitting(false);
+    },
+    displayName: 'BasicForm'
+})(MyForm);
 
-const Login = () => {
-    return (
-        <div>
-            <h1>Login</h1>
-            <LoginForm />
-        </div>
-    )
-}
+const mapStateToProps = (state) => ({
+    auth: state.auth
+});
 
-
-
-export default Login
+export default compose(
+    connect(mapStateToProps, {login}),
+)(LoginContainer);

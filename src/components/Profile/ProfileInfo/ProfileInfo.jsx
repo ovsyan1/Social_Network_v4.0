@@ -7,7 +7,7 @@ const ProfileInfo = (props) => {
     if(!props.profile){
         return <Preloader />
     }
-    console.log(props.profile.fullName)
+    console.log(props.profile)
     return (
             <div>
                 <div className={classes.discriptionBlock}>

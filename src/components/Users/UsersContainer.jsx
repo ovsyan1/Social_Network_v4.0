@@ -16,6 +16,7 @@ class UsersContainer extends React.Component{
         this.props.getUsers(pageNumber, this.props.pageSize);
     }
     render(){
+        console.log(this.props);
         return (
         <>
         {this.props.isFetching ? <Preloader /> : null}

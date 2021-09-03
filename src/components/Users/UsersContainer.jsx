@@ -6,7 +6,7 @@ import { follow, unfollow,
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
 import { compose } from 'redux';
-import { getUsers, getPageSize, 
+import { getUsers , getPageSize, 
         getTotalUsersCount, getCurrentPage, 
         getIsFetching, getFollowingInProgress } from '../../redux/users_selectors';
 

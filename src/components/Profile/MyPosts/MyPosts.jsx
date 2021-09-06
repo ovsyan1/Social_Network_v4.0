@@ -2,9 +2,15 @@ import React from 'react';
 import classes from './MyPosts.module.css';
 import Post from './Post/Post';
 
-const MyPosts = (props) => {
-    let postsElements = props.posts.map(post => {
-            return <Post message={post.message} count={post.likesCount}/>
+const MyPosts = React.memo((props) => {
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     return nextProps !== this.props || nextState !== this.state;
+    // }
+
+        console.log('render');
+       let postsElements = props.posts.map(post => {
+            return <Post message={post.message} count={post.likesCount} key={post.likesCount}/>
     });
 
     let newPostElement = React.createRef();
@@ -16,7 +22,6 @@ const MyPosts = (props) => {
         let text = newPostElement.current.value;
         props.updateNewPostText(text)
     }
-
     return <div className={classes.postsBlock}>
                 <h3>My posts</h3>
                 <div className={classes.post}>
@@ -31,7 +36,7 @@ const MyPosts = (props) => {
                         New post
                         {postsElements}
                     </div>
-            </div>
-}
+            </div> 
+})
 
 export default MyPosts;

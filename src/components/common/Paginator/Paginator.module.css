@@ -1,7 +1,11 @@
 .selectedPage{
     font-weight: bold;
+    color: gold;
 }
-.box_pagination span{
+.pageNumber{
     cursor: pointer;
     margin: 5px;
+}
+.btn{
+    cursor: pointer;
 }

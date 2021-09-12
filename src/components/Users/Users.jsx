@@ -5,7 +5,7 @@ import Paginator from '../common/Paginator/Paginator';
 const Users = ({
     currentPage, 
     onPageChanged, 
-    totalUsersCount, 
+    totalItemsCount, 
     pageSize, 
     users, 
     followingProgress, 
@@ -16,7 +16,7 @@ const Users = ({
                 <Paginator 
                     currentPage={currentPage} 
                     onPageChanged={onPageChanged} 
-                    totalUsersCount={totalUsersCount} 
+                    totalItemsCount={totalItemsCount} 
                     pageSize={pageSize}
                 />
                 {users.map(u => {

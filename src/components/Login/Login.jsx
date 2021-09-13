@@ -67,6 +67,18 @@ class MyForm extends React.Component {
                         {this.props.auth.errors && <Error />}
                     </div>
                     <div>
+                        {this.props.captchaUrl && <img src={this.props.captchaUrl} alt=""/>}
+                        <div>
+                        {this.props.captchaUrl && <input 
+                            type='text'
+                            placeholder='Symbols from image'
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name='captcha'
+                            />}
+                        </div>
+                    </div>
+                    <div>
                         <button type="submit">Login</button>
                     </div>
                 </form>
@@ -85,14 +97,14 @@ const LoginContainer = withFormik({
         return errors;
     },
     handleSubmit: (values, { props, setSubmitting }) => {
-        // console.log(values);
-        props.login(values.email, values.password, values.rememberMe);
+        props.login(values.email, values.password, values.rememberMe, values.captcha);
         setSubmitting(false);
     },
     displayName: 'BasicForm'
 })(MyForm);
 
 const mapStateToProps = (state) => ({
+    captchaUrl: state.auth.captchaUrl,
     auth: state.auth
 });
 

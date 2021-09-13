@@ -20,6 +20,7 @@ const Users = ({
                     pageSize={pageSize}
                 />
                 {users.map(u => {
+                    console.log(u);
                    return (
                     <User key={u.id} 
                             user={u} 

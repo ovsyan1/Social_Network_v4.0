@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar  from './components/Navbar/Navbar';
-import {Route} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import UsersContainer from './components/Users/UsersContainer';
 import LoginContainer from './components/Login/Login';
 import {connect} from 'react-redux';
@@ -21,8 +21,16 @@ const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileCo
 
 
 class App extends React.Component {
+  catchAllUnhandledErrors = (promiseRejectionEvent) => {
+    console.error(promiseRejectionEvent)
+  }
+
   componentDidMount(){
     this.props.initializeApp();
+    window.addEventListener('unhandledrejection', this.catchAllUnhandledErrors);
+  }
+  componentWillUnmount(){
+    window.removeEventListener('unhandledrejection', this.catchAllUnhandledErrors);
   }
   render(){
     if(!this.props.initialized){
@@ -34,6 +42,8 @@ class App extends React.Component {
           <HeaderContainer/>
           <Navbar/>
           <div className="app-wrapper-content">
+            <Switch>
+            <Route exact path="/" render={() => <Redirect to={'/profile'}/>}/>
             <Route path="/profile/:userId?" render={withSuspense(ProfileContainer)}/>
             <Route path="/dialogs" render={withSuspense(DialogsContainer)}/>
             <Route path="/news" render={() => <ProfileContainer />}/>
@@ -41,7 +51,10 @@ class App extends React.Component {
             <Route path="/settings" render={() => <ProfileContainer />}/>
             <Route path="/friends" render={() => <ProfileContainer />}/>
             <Route path="/users" render={() => <UsersContainer />} />
+            <Route path="/login/facebook" render={() => <div>facebook</div>} />
             <Route path="/login" render={() => <LoginContainer />} />
+            <Route path="*" render={() => <div>404 NOT FOUND</div>} />
+            </Switch>
           </div>
       </div>
   );

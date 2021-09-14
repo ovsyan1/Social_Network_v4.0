@@ -78,10 +78,15 @@ export const getStatus = (userId) => async (dispatch) => {
         dispatch(setStatus(response.data));
 }
 export const updateStatus = (status) => async (dispatch) => {
-  let response = await profileAPI.getStatus(status);
+    try{
+       let response = await profileAPI.getStatus(status);
             if(response.data.resultCode === 0){
                 dispatch(setStatus(status));
-            } 
+            }  
+    } catch(error){
+        console.error(error) // or dispatch error
+    }
+  
 }
 export const savePhoto = (file) => async (dispatch) => {
     let response = await profileAPI.savePhoto(file);
@@ -93,7 +98,7 @@ export const saveProfile = (profile) => async (dispatch) => {
     let response = await profileAPI.saveProfile(profile);
     debugger
               if(response.data.resultCode === 0){
-                //   dispatch(savePhotoSuccess(response.data.data.photos));
+                  dispatch(savePhotoSuccess(response.data.data.photos));
               } 
 }
 

@@ -2,15 +2,24 @@ const SEND_MESSAGE = 'SEND-MESSAGE';
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
 let count = 6;
 
+type DialogType = {
+    id: number,
+    name: string
+}
+type MessageType = {
+    id: number,
+    message: string
+}
+
 let initialState = {
     dialogs: [
-        { id: 1, name: 'Dimych', img: 'https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png'},
-        { id: 2, name: 'Andrew', img: 'https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png'},
-        { id: 3, name: 'Sveta', img: 'https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png'},
-        { id: 4, name: 'Sasha', img: 'https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png'},
-        { id: 5, name: 'Sasha', img: 'https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png'},
-        { id: 6, name: 'Valera', img: 'https://uybor.uz/borless/uybor/img/user-images/user_no_photo_600x600.png'}
-        ],
+        { id: 1, name: 'Dimych'},
+        { id: 2, name: 'Andrew'},
+        { id: 3, name: 'Sveta'},
+        { id: 4, name: 'Sasha'},
+        { id: 5, name: 'Sasha'},
+        { id: 6, name: 'Valera'}
+        ] as Array<DialogType>,
        messages: [
         { id: 1, message: 'Hi'},
         { id: 2, message: 'How are you?'},
@@ -18,11 +27,13 @@ let initialState = {
         { id: 4, message: 'yo'},
         { id: 5, message: 'yo'},
         { id: 6, message: 'yo'}
-        ],
+        ] as Array<MessageType>,
         newMessageText: 'best-network'
 }
 
-const dialogsReducer = (state = initialState, action) => {
+export type InitialStateType = typeof initialState
+
+const dialogsReducer = (state = initialState, action: any): InitialStateType => {
         switch(action.type){
             case SEND_MESSAGE:
                 return {
@@ -43,15 +54,20 @@ const dialogsReducer = (state = initialState, action) => {
         }
 }
 
+type addMessageActionCreatorType = {
+    type: typeof SEND_MESSAGE,
+    status: string
+}
 
-export const addMessageActionCreator = () => {
+
+export const addMessageActionCreator = (): addMessageActionCreatorType => {
     return {
         type: SEND_MESSAGE,
         status: 'message'
     }
 }
 
-export const updateNewMessageTextActionCreator = (text) => {
+export const updateNewMessageTextActionCreator = (text: string) => {
     return{
         type: UPDATE_NEW_MESSAGE_TEXT,
         newText: text,

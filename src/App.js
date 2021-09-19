@@ -50,7 +50,7 @@ class App extends React.Component {
             <Route path="/music" render={() => <ProfileContainer />}/>
             <Route path="/settings" render={() => <ProfileContainer />}/>
             <Route path="/friends" render={() => <ProfileContainer />}/>
-            <Route path="/users" render={() => <UsersContainer />} />
+            <Route path="/users" render={() => <UsersContainer pageTitle={'Самураи'}/>} />
             <Route path="/login/facebook" render={() => <div>facebook</div>} />
             <Route path="/login" render={() => <LoginContainer />} />
             <Route path="*" render={() => <div>404 NOT FOUND</div>} />

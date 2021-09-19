@@ -6,21 +6,25 @@ import authReducer from './auth_reducer';
 import thunkMiddleware from 'redux-thunk';
 import appReducer from './app_reducer';
 
-let reducers = combineReducers({
+let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
     auth: authReducer,
     app: appReducer
 });
-
 // let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)))
+type RootReducerType = typeof rootReducer
+export type AppStateType = ReturnType<RootReducerType>
 
-// import { createStore, applyMiddleware, compose } from 'redux';
 
-window.store = store;
+// @ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)))
+
+// @ts-ignore
+window.store = store
 
 export default store

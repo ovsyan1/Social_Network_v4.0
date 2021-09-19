@@ -7,6 +7,7 @@ import Message from './Message/Message';
 
 const Dialogs = (props) => {
     let state = props.dialogsPage;
+
     let dialogsElements = state.dialogs.map(dialog => {
        return <DialogItem id={dialog.id} key={dialog.id} name={dialog.name} img={dialog.img}/>
     })
@@ -23,7 +24,6 @@ const Dialogs = (props) => {
         props.updateNewMessageChange(text);
     }
 
-    // if(!props.isAuth)return <Redirect to={'/login'}/>;
     return(
         <div className={classes.dialogs}>
             <div className={classes.dialogsItems}>

@@ -1,8 +1,21 @@
 import React from 'react';
 import User from './User';
+import {UserType} from '../../types/types';
 import Paginator from '../common/Paginator/Paginator';
 
-const Users = ({
+type UsersType = {
+    totalItemsCount: number
+    pageSize: number 
+    currentPage: number
+    onPageChanged: (pageNumber: number) => void
+    portionSize?: number
+    users: Array<UserType>
+    followingProgress: Array<number>
+    follow: (userId: number) => void
+    unfollow: (userId: number) => void
+}
+
+const Users: React.FC<UsersType> = ({
     currentPage, 
     onPageChanged, 
     totalItemsCount, 
@@ -10,7 +23,8 @@ const Users = ({
     users, 
     followingProgress, 
     follow, 
-    unfollow }) => {
+    unfollow 
+    }) => {
     return(
         <div>
                 <Paginator 
@@ -20,7 +34,6 @@ const Users = ({
                     pageSize={pageSize}
                 />
                 {users.map(u => {
-                    console.log(u);
                    return (
                     <User key={u.id} 
                             user={u} 

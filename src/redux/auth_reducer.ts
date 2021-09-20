@@ -1,4 +1,5 @@
-import {authAPI, securityAPI} from '../api/api';
+import { ResultCodesForCaptcha } from './../api/api';
+import {authAPI, ResultCodesEnum, securityAPI} from '../api/api';
 
 const SET_USER_DATA = 'samurai-network/auth/SET_USER_DATA';
 const SET_ERROR = 'samurai-network/auth/SET_ERROR';
@@ -66,9 +67,9 @@ export const getCaptchaUrlSuccess = (captchaUrl: string): getCaptchaUrlSuccessAc
 });
 
 export const getAuthUserData = () => async (dispatch: any) => {
-    const response = await authAPI.me();
-        if(response.data.resultCode === 0) { // User authorized
-            let {id, email, login} = response.data.data;
+    const meData = await authAPI.me()
+        if(meData.resultCode === ResultCodesEnum.Success) { // User authorized
+            let {id, email, login} = meData.data;
             dispatch(setAuthUserData(id, email, login, true))
         }
 }
@@ -78,12 +79,12 @@ export const setErrors = (errors: any) => (dispatch: any) => {
 }
 
 export const login = (email: string, password: string, rememberMe: boolean, captcha:  null | undefined) => async (dispatch: any) => {
-    const response = await authAPI.login(email, password, rememberMe, captcha);
-            if(response.data.resultCode === 0){
+    const data = await authAPI.login(email, password, rememberMe, captcha);
+            if(data.resultCode === ResultCodesEnum.Success){
                 dispatch(getAuthUserData());
                 dispatch(setErrors(false));
             }else{
-                if(response.data.resultCode === 10){
+                if(data.resultCode === ResultCodesForCaptcha.CaptchaIsRequired){
                     dispatch(getCaptchaUrl());
                 }
                 dispatch(setErrors(true));

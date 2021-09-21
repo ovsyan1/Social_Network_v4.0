@@ -1,5 +1,4 @@
-const SEND_MESSAGE = 'SEND-MESSAGE';
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
+import { InferActionsTypes } from './redux-store';
 let count = 6;
 
 type DialogType = {
@@ -31,11 +30,9 @@ let initialState = {
         newMessageText: 'best-network'
 }
 
-export type InitialStateType = typeof initialState
-
-const dialogsReducer = (state = initialState, action: any): InitialStateType => {
+const dialogsReducer = (state = initialState, action: ActionsType): InitialStateType => {
         switch(action.type){
-            case SEND_MESSAGE:
+            case 'SEND-MESSAGE':
                 return {
                     ...state,
                     newMessageText: '',
@@ -44,7 +41,7 @@ const dialogsReducer = (state = initialState, action: any): InitialStateType => 
                         {id: ++count, message: state.newMessageText}
                     ]
                 }               
-            case UPDATE_NEW_MESSAGE_TEXT:
+            case 'UPDATE-NEW-MESSAGE-TEXT':
                 return {
                     ...state,
                     newMessageText: action.newText
@@ -54,25 +51,16 @@ const dialogsReducer = (state = initialState, action: any): InitialStateType => 
         }
 }
 
-type addMessageActionCreatorType = {
-    type: typeof SEND_MESSAGE,
-    status: string
-}
-
-
-export const addMessageActionCreator = (): addMessageActionCreatorType => {
-    return {
-        type: SEND_MESSAGE,
-        status: 'message'
-    }
-}
-
-export const updateNewMessageTextActionCreator = (text: string) => {
-    return{
-        type: UPDATE_NEW_MESSAGE_TEXT,
+export const actions = {
+    sendMessage: () => ({type: 'SEND-MESSAGE', status: 'message'} as const),
+    updateNewMessageTextActionCreator: (text: string) => ({
+        type: 'UPDATE-NEW-MESSAGE-TEXT',
         newText: text,
         status: 'message'
-    }
+    } as const )
 }
 
 export default dialogsReducer;
+
+export type InitialStateType = typeof initialState
+type ActionsType = InferActionsTypes<typeof actions>

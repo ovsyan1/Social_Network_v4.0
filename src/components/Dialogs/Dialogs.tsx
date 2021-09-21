@@ -2,10 +2,16 @@ import React from 'react';
 import classes from './Dialogs.module.css';
 import DialogItem from './DialogItem/DialogItem';
 import Message from './Message/Message';
+import { InitialStateType } from '../../redux/dialogs_reducer';
 
+type OwnPropsType = {
+    dialogsPage: InitialStateType
+    sendMessage: (messageText: string) => void
+    updateNewMessageChange: (text: string) => void
+    onClick: () => string
+}
 
-
-const Dialogs = (props) => {
+const Dialogs: React.FC<OwnPropsType> = (props) => {
     let state = props.dialogsPage;
 
     let dialogsElements = state.dialogs.map(dialog => {
@@ -16,10 +22,10 @@ const Dialogs = (props) => {
         return <Message message={message.message} key={message.id}/>
     })
     
-    const addTxt = () => {
-        props.sendMessage();
+    const addTxt = (values: {newMessageBody: string}) => {
+        props.sendMessage(values.newMessageBody);
     }
-    const onMessageChange = (e) => {
+    const onMessageChange = (e: any) => {
         let text = e.target.value;
         props.updateNewMessageChange(text);
     }

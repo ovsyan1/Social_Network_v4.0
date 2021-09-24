@@ -1,4 +1,4 @@
-import { AppStateType, InferActionsTypes } from './redux-store';
+import { InferActionsTypes } from './redux-store';
 import {UserType} from '../types/types';
 import {usersAPI} from '../api/users_api';
 import {updateObjectInArray} from './object-helpers';

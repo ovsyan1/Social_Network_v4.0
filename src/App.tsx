@@ -14,15 +14,23 @@ import store from './redux/redux-store';
 import { BrowserRouter } from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {withSuspense} from './hoc/withSuspense';
+import {AppStateType} from './redux/redux-store';
 
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
 
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+    initializeApp: () => void
+}
 
-class App extends React.Component {
-  catchAllUnhandledErrors = (promiseRejectionEvent) => {
-    console.error(promiseRejectionEvent)
+
+class App extends React.Component<MapPropsType & DispatchPropsType> {
+  //e: promiseRejectionEvent
+  catchAllUnhandledErrors = () => {
+    alert('Some error occured')
+    // console.error(promiseRejectionEvent)
   }
 
   componentDidMount(){
@@ -61,15 +69,15 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
   initialized: state.app.initialized
 })
 
-let AppContainer = compose(
+let AppContainer = compose<React.ComponentType>(
   withRouter,
   connect(mapStateToProps, {initializeApp}))(App);
 
-const SamuraiJSApp = () => {
+const SamuraiJSApp: React.FC = () => {
     return ( 
       <BrowserRouter>
         <Provider store={store}>

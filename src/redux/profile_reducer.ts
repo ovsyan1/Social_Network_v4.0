@@ -99,4 +99,4 @@ export default profileReducer;
 
 export type InitialStateType = typeof initialState
 type ActionsType = InferActionsTypes<typeof actions>
-type ThunkType = BaseThunkType<ActionsType>
+export type ThunkType = BaseThunkType<ActionsType>

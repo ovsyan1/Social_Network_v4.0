@@ -1,7 +1,5 @@
 import React from 'react';
 import { withFormik } from 'formik';
-// import {compose} from "redux";
-// import {connect} from "react-redux";
 
 class ProfileDataForm extends React.Component{
         render(){

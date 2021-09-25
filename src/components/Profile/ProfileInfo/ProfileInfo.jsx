@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import Preloader from '../../common/Preloader/Preloader';
 import classes from './ProfileInfo.module.css';
-import ProfileStatusWithHooks from './ProfileStatusWithHooks';
+import ProfileStatusWithHooks from './ProfileStatusWithHooks.jsx';
 import userPhoto from '../../../assets/images/gordon.jpg';
 import ProfileDataForm from './ProfileDataForm';
+
 
 const ProfileInfo = ({profile, updateStatus, isOwner, savePhoto, saveProfile}) => {
 
@@ -13,7 +14,7 @@ const ProfileInfo = ({profile, updateStatus, isOwner, savePhoto, saveProfile}) =
         return <Preloader />
     }
     const onMainPhotoSelected = (e) => {
-        if(e.target.files.length){
+        if(e.target.files?.length){
             savePhoto(e.target.files[0])
         }
     }

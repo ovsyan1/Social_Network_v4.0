@@ -1,19 +1,28 @@
 import React from 'react';
 import classes from './MyPosts.module.css';
 import Post from './Post/Post';
+import {PostType} from '../../../types/types';
 
-const MyPosts = React.memo((props) => {
+
+
+type PropsType = {
+    posts: Array<PostType>
+    addPost: () => void
+    updateNewPostText: (text: string) => void
+    newPostText: string
+}
+
+const MyPosts: React.FC<PropsType> = React.memo((props) => {
 
     // shouldComponentUpdate(nextProps, nextState) {
     //     return nextProps !== this.props || nextState !== this.state;
     // }
 
-        console.log('render');
        let postsElements = props.posts.map(post => {
             return <Post message={post.message} count={post.likesCount} key={post.likesCount}/>
     });
 
-    let newPostElement = React.createRef();
+    let newPostElement: any = React.createRef();
 
     let onAddPost = () => {
         props.addPost();
@@ -26,7 +35,7 @@ const MyPosts = React.memo((props) => {
                 <h3>My posts</h3>
                 <div className={classes.post}>
                     <div>
-                        <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText} cols="20" rows="4"/>
+                        <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}/>
                     </div>
                     <div>
                        <button onClick={onAddPost}>Add post</button> 

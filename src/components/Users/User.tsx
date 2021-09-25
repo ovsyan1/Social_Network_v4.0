@@ -24,10 +24,12 @@ const User: React.FC<PropsType> = ({user, followingProgress, unfollow, follow })
             </div>
             <div>
                     {user.followed 
+                    //@ts-ignore
                     ? <button disabled={followingProgress} className={classes.btn} 
                     onClick={() => {unfollow(user.id)}}>unFollow</button>
+                    //@ts-ignore
                     : <button disabled={followingProgress} className={classes.btn} 
-                    onClick={() => {follow(user.id);}}>Follow</button>} 
+                    onClick={() => {follow(user.id)}}>Follow</button>} 
             </div>
                     <span>
                         <span>

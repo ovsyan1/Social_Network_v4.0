@@ -1,6 +1,6 @@
 import { withFormik } from 'formik';
 import React from 'react';
-import {Redirect, withRouter} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {compose} from "redux";
 import {connect} from "react-redux";
 import {login, setErrors} from "../../redux/auth_reducer";

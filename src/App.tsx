@@ -3,7 +3,7 @@ import './App.css';
 import HeaderContainer from './components/Header/HeaderContainer';
 import Navbar  from './components/Navbar/Navbar';
 import {Redirect, Route, Switch} from 'react-router-dom';
-import UsersContainer from './components/Users/UsersContainer';
+import {UsersPage} from './components/Users/UsersPage';
 import LoginContainer from './components/Login/Login';
 import {connect} from 'react-redux';
 import {compose} from 'redux';
@@ -58,7 +58,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
             <Route path="/music" render={() => <ProfileContainer />}/>
             <Route path="/settings" render={() => <ProfileContainer />}/>
             <Route path="/friends" render={() => <ProfileContainer />}/>
-            <Route path="/users" render={() => <UsersContainer pageTitle={'Самураи'}/>} />
+            <Route path="/users" render={() => <UsersPage pageTitle={'Самураи'}/>} />
             <Route path="/login/facebook" render={() => <div>facebook</div>} />
             <Route path="/login" render={() => <LoginContainer />} />
             <Route path="*" render={() => <div>404 NOT FOUND</div>} />

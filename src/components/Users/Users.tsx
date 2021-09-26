@@ -44,7 +44,7 @@ export const Users: React.FC<PropsType> = React.memo((props) => {
             if(currentPage !== 1) query.page = String(currentPage)
 
             history.push({
-                pathname: '/users',
+                pathname: '/developers',
                 // search: `?term=${filter.term}&friend=${filter.friend}&page=${currentPage}`
                 search: queryString.stringify(query)
             })

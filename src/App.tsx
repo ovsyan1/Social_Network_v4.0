@@ -22,16 +22,19 @@ import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-
-
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'));
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'));
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'))
+
+
+const SuspendedDialogs = withSuspense(DialogsContainer)
+const SuspendedProfile = withSuspense(ProfileContainer)
+const SuspendedChatPage = withSuspense(ChatPage)
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
     initializeApp: () => void
 }
-
 
 class App extends React.Component<MapPropsType & DispatchPropsType> {
   //e: promiseRejectionEvent
@@ -81,7 +84,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
               <Menu.Item key="8">option8</Menu.Item>
             </SubMenu>
             <SubMenu key="sub3" icon={<NotificationOutlined />} title="subnav 3">
-              <Menu.Item key="9">option9</Menu.Item>
+              <Menu.Item key="9"><Link to='/chat'>Chat</Link></Menu.Item>
               <Menu.Item key="10">option10</Menu.Item>
               <Menu.Item key="11">option11</Menu.Item>
               <Menu.Item key="12">option12</Menu.Item>
@@ -91,7 +94,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
           <Switch>
               <Route exact path="/" render={() => <Redirect to={'/profile'}/>}/>
-              <Route path="/profile/:userId?" render={withSuspense(ProfileContainer)}/>
+              <Route path="/profile/:userId?" render={() => <SuspendedProfile />}/>
               <Route path="/news" render={() => <ProfileContainer />}/>
               <Route path="/music" render={() => <ProfileContainer />}/>
               <Route path="/settings" render={() => <ProfileContainer />}/>
@@ -99,7 +102,8 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
               <Route path="/developers" render={() => <UsersPage pageTitle={'Самураи'}/>} />
               <Route path="/login/facebook" render={() => <div>facebook</div>} />
               <Route path="/login" render={() => <LoginContainer />} />
-              <Route path="/dialogs" render={withSuspense(DialogsContainer)}/>
+              <Route path="/dialogs" render={() => <SuspendedDialogs />}/>
+              <Route path="/chat" render={() => <SuspendedChatPage />}/>
               <Route path="*" render={() => <div>404 NOT FOUND
                   <Button type={'primary'}>ok</Button></div>} />
           </Switch>
